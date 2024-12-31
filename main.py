@@ -22,24 +22,24 @@ UPLOAD_ID_CHARACTERISTIC_ID = 2
 DOWNLOAD_DATA_CHARACTERISTIC_ID = 3
 
 def get_system_info():
-    info = {}
-    info["bluetooth_status"] = subprocess.getoutput("systemctl is-active bluetooth")
-    info["dbus_status"] = subprocess.getoutput("systemctl is-active dbus")
-    info["bluez_version"] = subprocess.getoutput("bluetoothctl --version")
+  info = {}
+  info["bluetooth_status"] = subprocess.getoutput("systemctl is-active bluetooth")
+  info["dbus_status"] = subprocess.getoutput("systemctl is-active dbus")
+  info["bluez_version"] = subprocess.getoutput("bluetoothctl --version")
 
-    return info
+  return info
 
 def get_bluetooth_adapter():
-    try:
-        adapters = adapter.list_adapters()
-        if adapters:
-            return adapters[0]
-        else:
-            logging.error("No Bluetooth adapters found.")
-            return None
-    except Exception as e:
-        logging.error(f"Error getting Bluetooth adapter: {e}")
-        return None
+  try:
+    adapters = adapter.list_adapters()
+    if adapters:
+      return adapters[0]
+    else:
+      logging.error("No Bluetooth adapters found.")
+      return None
+  except Exception as e:
+    logging.error(f"Error getting Bluetooth adapter: {e}")
+    return None
 
 def main():
   system_info = get_system_info()
