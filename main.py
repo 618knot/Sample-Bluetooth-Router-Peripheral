@@ -14,11 +14,11 @@ UPLOAD_SERVICE_ID = 1
 DOWNLOAD_SERVICE_ID = 2
 
 UPLOAD_DATA_CHARACTERISTIC = "124a03e2-46c2-4ddd-8cf2-b643a1e91071"
-UPLOAD_ID_CHARACTERISTIC = "d7299075-a344-48a7-82bb-2baa19838b2d"
+UPLOAD_DESTINATION_CHARACTERISTIC = "d7299075-a344-48a7-82bb-2baa19838b2d"
 DOWNLOAD_DATA_CHARACTERISTIC = "b4bf78a1-b41a-4412-b3a9-97740d7003e0"
 
 UPLOAD_DATA_CHARACTERISTIC_ID = 1
-UPLOAD_ID_CHARACTERISTIC_ID = 2
+UPLOAD_DESTINATION_CHARACTERISTIC_ID = 2
 DOWNLOAD_DATA_CHARACTERISTIC_ID = 3
 
 def get_system_info():
@@ -67,17 +67,17 @@ def main():
       uuid = UPLOAD_DATA_CHARACTERISTIC,
       value = [],
       notifying = False,
-      flags = ["read"],
+      flags = ["notify"],
       notify_callback = None,
     )
 
     my_peripheral.add_characteristic(
       srv_id = UPLOAD_SERVICE_ID,
-      chr_id = UPLOAD_ID_CHARACTERISTIC_ID,
-      uuid = UPLOAD_ID_CHARACTERISTIC,
+      chr_id = UPLOAD_DESTINATION_CHARACTERISTIC_ID,
+      uuid = UPLOAD_DESTINATION_CHARACTERISTIC,
       value = [],
       notifying = False,
-      flags = ["notify"],
+      flags = ["read"],
       notify_callback = None,
     )
 
