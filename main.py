@@ -41,6 +41,35 @@ def get_bluetooth_adapter():
     logging.error(f"Error getting Bluetooth adapter: {e}")
     return None
 
+up_data = "sample"
+def update_up_data(characteristic):
+  global up_data
+  characteristic.set_value(up_data)
+
+  return characteristic.is_notifying
+
+# Callback Functions
+def up_data_cb(notifying, characteristic):
+  global up_data
+
+  logging.debug("Notify")
+
+  if notifying:
+    async_tools.add_timer_seconds(5, update_up_data, characteristic)
+
+up_destination = "192.168.64.1"
+def up_destination_cb():
+  global up_destination
+
+  logging.debug(f"Read Destination: {up_destination}")
+
+down_data = None
+def down_data_cb(value):
+  global down_data
+  down_data = value
+
+  logging.debug(f"Download Data: {value}")
+
 def main():
   system_info = get_system_info()
   logging.info(f"System info: {system_info}")
@@ -66,9 +95,8 @@ def main():
       chr_id = UPLOAD_DATA_CHARACTERISTIC_ID,
       uuid = UPLOAD_DATA_CHARACTERISTIC,
       value = [],
-      notifying = False,
       flags = ["notify"],
-      notify_callback = None,
+      notify_callback = up_data_cb,
     )
 
     my_peripheral.add_characteristic(
@@ -76,9 +104,8 @@ def main():
       chr_id = UPLOAD_DESTINATION_CHARACTERISTIC_ID,
       uuid = UPLOAD_DESTINATION_CHARACTERISTIC,
       value = [],
-      notifying = False,
       flags = ["read"],
-      notify_callback = None,
+      read_callback = up_destination_cb,
     )
 
     my_peripheral.add_characteristic(
@@ -86,9 +113,8 @@ def main():
       chr_id = DOWNLOAD_DATA_CHARACTERISTIC_ID,
       uuid = DOWNLOAD_DATA_CHARACTERISTIC,
       value = [],
-      notifying = False,
       flags = ["write"],
-      notify_callback = None,
+      write_callback = down_data_cb,
     )
 
     # Start Advertising
