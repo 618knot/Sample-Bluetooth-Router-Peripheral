@@ -7,11 +7,9 @@ logging.basicConfig(level=logging.DEBUG)
 
 DEVICE_NAME = "BLE Router Peripheral"
 
-UPLOAD_SERVICE = "c8edc62d-8604-40c6-a4b4-8878d228ec1c"
-DOWNLOAD_SERVICE = "e1f803e0-7bb5-40a2-a826-2219f54fab56"
+DATA_TRANSFER_SERVICE = "c8edc62d-8604-40c6-a4b4-8878d228ec1c"
 
-UPLOAD_SERVICE_ID = 1
-DOWNLOAD_SERVICE_ID = 2
+DATA_TRANSFER_SERVICE_ID = 1
 
 UPLOAD_DATA_CHARACTERISTIC = "124a03e2-46c2-4ddd-8cf2-b643a1e91071"
 UPLOAD_DESTINATION_CHARACTERISTIC = "d7299075-a344-48a7-82bb-2baa19838b2d"
@@ -86,12 +84,11 @@ def main():
     my_peripheral = peripheral.Peripheral(adapter_address, local_name= DEVICE_NAME)
 
     # Add Services
-    my_peripheral.add_service(UPLOAD_SERVICE_ID, UPLOAD_SERVICE, True)
-    my_peripheral.add_service(DOWNLOAD_SERVICE_ID, DOWNLOAD_SERVICE, True)
+    my_peripheral.add_service(DATA_TRANSFER_SERVICE_ID, DATA_TRANSFER_SERVICE, True)
 
     # Add Characteristics
     my_peripheral.add_characteristic(
-      srv_id = UPLOAD_SERVICE_ID,
+      srv_id = DATA_TRANSFER_SERVICE_ID,
       chr_id = UPLOAD_DATA_CHARACTERISTIC_ID,
       uuid = UPLOAD_DATA_CHARACTERISTIC,
       value = up_data,
@@ -101,7 +98,7 @@ def main():
     )
 
     my_peripheral.add_characteristic(
-      srv_id = UPLOAD_SERVICE_ID,
+      srv_id = DATA_TRANSFER_SERVICE_ID,
       chr_id = UPLOAD_DESTINATION_CHARACTERISTIC_ID,
       uuid = UPLOAD_DESTINATION_CHARACTERISTIC,
       value = up_destination,
