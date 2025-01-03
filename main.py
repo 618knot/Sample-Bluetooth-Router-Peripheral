@@ -127,7 +127,7 @@ def main():
       logging.error(f"DBus error: {e}")
       logging.info("Please check if bluetoothd is running and you have the necessary permissions.")
   except Exception as e:
-      logging.error(f"Unexpected error: {e}")
+      logging.error(f"Unexpected error: {e}", stack_info=True)
   finally:
       print("stop")
 
