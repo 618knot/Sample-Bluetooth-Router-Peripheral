@@ -94,27 +94,30 @@ def main():
       srv_id = UPLOAD_SERVICE_ID,
       chr_id = UPLOAD_DATA_CHARACTERISTIC_ID,
       uuid = UPLOAD_DATA_CHARACTERISTIC,
-      value = [],
+      value = up_data,
       flags = ["notify"],
       notify_callback = up_data_cb,
+      notifying = False,
     )
 
     my_peripheral.add_characteristic(
       srv_id = UPLOAD_SERVICE_ID,
       chr_id = UPLOAD_DESTINATION_CHARACTERISTIC_ID,
       uuid = UPLOAD_DESTINATION_CHARACTERISTIC,
-      value = [],
+      value = up_destination,
       flags = ["read"],
       read_callback = up_destination_cb,
+      notifying = False,
     )
 
     my_peripheral.add_characteristic(
       srv_id = DOWNLOAD_SERVICE_ID,
       chr_id = DOWNLOAD_DATA_CHARACTERISTIC_ID,
       uuid = DOWNLOAD_DATA_CHARACTERISTIC,
-      value = [],
+      value = down_data,
       flags = ["write"],
       write_callback = down_data_cb,
+      notifying = False,
     )
 
     # Start Advertising
