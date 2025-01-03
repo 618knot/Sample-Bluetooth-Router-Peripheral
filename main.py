@@ -41,7 +41,7 @@ def get_bluetooth_adapter():
     logging.error(f"Error getting Bluetooth adapter: {e}")
     return None
 
-up_data = "sample"
+up_data = "sample".encode("UTF-8")
 def update_up_data(characteristic):
   global up_data
   characteristic.set_value(up_data)
@@ -57,13 +57,13 @@ def up_data_cb(notifying, characteristic):
   if notifying:
     async_tools.add_timer_seconds(5, update_up_data, characteristic)
 
-up_destination = "192.168.64.1"
+up_destination = "192.168.64.1".encode("UTF-8")
 def up_destination_cb():
   global up_destination
 
   logging.debug(f"Read Destination: {up_destination}")
 
-down_data = None
+down_data = []
 def down_data_cb(value):
   global down_data
   down_data = value
