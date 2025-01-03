@@ -108,7 +108,7 @@ def main():
     )
 
     my_peripheral.add_characteristic(
-      srv_id = DOWNLOAD_SERVICE_ID,
+      srv_id = DATA_TRANSFER_SERVICE_ID,
       chr_id = DOWNLOAD_DATA_CHARACTERISTIC_ID,
       uuid = DOWNLOAD_DATA_CHARACTERISTIC,
       value = down_data,
