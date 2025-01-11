@@ -13,11 +13,13 @@ DATA_TRANSFER_SERVICE_ID = 1
 
 UPLOAD_DATA_CHARACTERISTIC = "124a03e2-46c2-4ddd-8cf2-b643a1e91071"
 UPLOAD_DESTINATION_CHARACTERISTIC = "d7299075-a344-48a7-82bb-2baa19838b2d"
+UPLOAD_BLE_MAC_CHARACTERISTIC = "99afe545-946e-437f-905e-06206b8d0f15"
 DOWNLOAD_DATA_CHARACTERISTIC = "b4bf78a1-b41a-4412-b3a9-97740d7003e0"
 
 UPLOAD_DATA_CHARACTERISTIC_ID = 1
 UPLOAD_DESTINATION_CHARACTERISTIC_ID = 2
-DOWNLOAD_DATA_CHARACTERISTIC_ID = 3
+UPLOAD_BLE_MAC_CHARACTERISTIC_ID = 3
+DOWNLOAD_DATA_CHARACTERISTIC_ID = 4
 
 def get_system_info():
   info = {}
@@ -55,14 +57,20 @@ def up_data_cb(notifying, characteristic):
   if notifying:
     async_tools.add_timer_seconds(5, update_up_data, characteristic)
 
-up_destination = "192.168.64.1".encode("UTF-8")
+up_destination = [192, 168, 64, 1]
 def up_destination_cb():
   global up_destination
 
   logging.debug(f"Read Destination: {up_destination}")
 
+up_ble_mac = [0, 0, 0, 0, 0, 0]
+def up_ble_mac_cb():
+  global up_ble_mac
+  
+  logging.debug(f"Read BLE MAC: {up_ble_mac}")
+
 down_data = []
-def down_data_cb(value):
+def down_data_cb(cls, value, option):
   global down_data
   down_data = value
 
@@ -109,10 +117,20 @@ def main():
 
     my_peripheral.add_characteristic(
       srv_id = DATA_TRANSFER_SERVICE_ID,
+      chr_id = UPLOAD_BLE_MAC_CHARACTERISTIC_ID,
+      uuid = UPLOAD_BLE_MAC_CHARACTERISTIC,
+      value = up_ble_mac,
+      flags = ["read"],
+      read_callback = up_destination_cb,
+      notifying = False,
+    )
+
+    my_peripheral.add_characteristic(
+      srv_id = DATA_TRANSFER_SERVICE_ID,
       chr_id = DOWNLOAD_DATA_CHARACTERISTIC_ID,
       uuid = DOWNLOAD_DATA_CHARACTERISTIC,
       value = down_data,
-      flags = ["write"],
+      flags = ["write-without-response"],
       write_callback = down_data_cb,
       notifying = False,
     )
