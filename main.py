@@ -57,24 +57,30 @@ def up_data_cb(notifying, characteristic):
   if notifying:
     async_tools.add_timer_seconds(5, update_up_data, characteristic)
 
-up_destination = "192.168.64.1".encode("UTF-8")
+up_destination = bytes([192, 168, 64, 1])
 def up_destination_cb():
   global up_destination
 
   logging.debug(f"Read Destination: {up_destination}")
+  
+  return up_destination
 
-up_ble_mac = "00:00:00:00:00:00".encode("UTF-8")
+up_ble_mac = bytes([0, 0, 0, 0, 0, 0])
 def up_ble_mac_cb():
   global up_ble_mac
   
   logging.debug(f"Read BLE MAC: {up_ble_mac}")
+  
+  return up_ble_mac
 
-down_data = []
+down_data = bytes([])
 def down_data_cb(cls, value, option):
   global down_data
   down_data = value
 
-  logging.debug(f"Download Data: {value}")
+  logging.debug(f"Download Data: {down_data}")
+  
+  return down_data
 
 def main():
   system_info = get_system_info()
