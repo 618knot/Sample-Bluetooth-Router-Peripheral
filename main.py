@@ -121,7 +121,7 @@ def main():
       uuid = UPLOAD_BLE_MAC_CHARACTERISTIC,
       value = up_ble_mac,
       flags = ["read"],
-      read_callback = up_destination_cb,
+      read_callback = up_ble_mac_cb,
       notifying = False,
     )
 
