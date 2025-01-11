@@ -57,13 +57,13 @@ def up_data_cb(notifying, characteristic):
   if notifying:
     async_tools.add_timer_seconds(5, update_up_data, characteristic)
 
-up_destination = [192, 168, 64, 1]
+up_destination = bytearray([192, 168, 64, 1])
 def up_destination_cb():
   global up_destination
 
   logging.debug(f"Read Destination: {up_destination}")
 
-up_ble_mac = [0, 0, 0, 0, 0, 0]
+up_ble_mac = bytearray([0, 0, 0, 0, 0, 0])
 def up_ble_mac_cb():
   global up_ble_mac
   
